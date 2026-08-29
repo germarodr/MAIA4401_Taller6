@@ -186,11 +186,11 @@ Este es el primer paso de ejecución de la Parte 2. Se debe lanzar una instancia
 con la configuración recomendada: tipo `t3.small`, sistema operativo Ubuntu 24.04 y
 disco de 20 GB.
 
-- **IP pública:** `<COMPLETAR_IP>`
+- **IP pública:** `3.92.223.195`
 - **Región:** `<COMPLETAR_REGION>`
 - **ID de instancia:** `<COMPLETAR_INSTANCE_ID>`
 
-![Consola de AWS EC2 con la instancia en ejecución y el usuario visible](imgs/t6-01-ec2-console.png)
+![alt text](image-2.png)
 
 *Figura 2.1 — Consola de AWS EC2 con la máquina virtual en ejecución (numeral 2.1 — 5 pts).* 
 
@@ -225,10 +225,10 @@ git push
 Se debe establecer la conexión SSH con la llave privada entregada por AWS:
 
 ```bash
-ssh -i /ruta/a/llave.pem ubuntu@<IP_PUBLICA>
+ssh -i /ruta/a/llave.pem ubuntu@3.92.223.195
 ```
 
-![Terminal con la conexión SSH exitosa a la máquina virtual](imgs/t6-02-ssh.png)
+![alt text](image-3.png)
 
 *Figura 2.3 — Conexión SSH exitosa a la VM (numeral 2.3 — 5 pts).*
 
@@ -289,11 +289,10 @@ Este comando se ejecutará dentro de la VM EC2. Tox creará o reutilizará el am
 aislado, instalará las dependencias de prueba y ejecutará `pytest -vv app/tests/`.
 La captura y el resultado que se incluirán aquí deben corresponder a esa ejecución.
 
-![Salida de tox run -e test_app con las pruebas superadas](imgs/t6-03-tox-test-app.png)
+![alt text](image-4.png)
 
 *Figura 2.12 — Ejecución del ambiente de pruebas de la API (numeral 2.12 — 10 pts).*
 
-Resultado en EC2: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
 
 ## 2.13 Ejecución de la API
 
@@ -304,7 +303,7 @@ tox run -e run
 Este comando se ejecutará dentro de la VM EC2. El ambiente `run` ejecutará
 `python app/main.py` y dejará el servidor Uvicorn escuchando en el puerto `8001`.
 
-![Salida de tox run -e run y servidor Uvicorn en ejecución](imgs/t6-04-tox-run.png)
+![alt text](image-5.png)
 
 *Figura 2.13 — Ejecución del ambiente de ejecución de la API (numeral 2.13 — 10 pts).*
 
@@ -326,29 +325,38 @@ Esta regla permitirá acceder al servidor desde un navegador externo.
 Una vez iniciado el servidor en la VM y abierto el puerto, la aplicación se abrirá en:
 
 ```text
-http://<IP_PUBLICA>:8001
+http://3.92.223.195:8001
 ```
 
 La documentación interactiva se consultó en:
 
 ```text
-http://<IP_PUBLICA>:8001/docs
+http://3.92.223.195:8001/docs
 ```
 
 Desde Swagger UI se ejecutará primero `/api/v1/health` y posteriormente
 `/api/v1/predict`, utilizando `Try it out` y `Execute`.
 
-![Ejecución exitosa de una predicción desde la documentación de FastAPI](imgs/t6-05-prediction-success.png)
+Durante la primera prueba, la ruta `/api/v1/health` devolvió un error `500 Internal Server
+Error`. La causa fue que `app/api.py` invocaba `health.model_dump()`, un método propio de
+Pydantic v2, mientras que el paquete del modelo fija Pydantic v1 (`pydantic<2.0.0`). En
+Pydantic v1 el método equivalente es `.dict()`. Se corrigió la línea a `return health.dict()`,
+se publicó el cambio en GitHub y se actualizó el repositorio en la máquina virtual antes de
+repetir la prueba con éxito.
+
+![alt text](image-6.png)
 
 *Figura 2.16 — Respuesta satisfactoria de la ruta de predicción (numeral 2.16 — 10 pts).*
 
-La respuesta exitosa que se documentará será:
+La respuesta exitosa obtenida fue:
 
 ```json
 {
   "errors": null,
-  "version": "<COMPLETAR_VERSION_MODELO>",
-  "predictions": [<COMPLETAR_PREDICCION>]
+  "version": "0.0.1",
+  "predictions": [
+    0
+  ]
 }
 ```
 
@@ -424,7 +432,7 @@ tox run -e run
 Se volverá a acceder a la documentación mediante:
 
 ```text
-http://<IP_PUBLICA>:8001/docs
+http://3.92.223.195:8001/docs
 ```
 
 La ruta `/api/v1/health` permitirá verificar que la versión del modelo reportada sea
