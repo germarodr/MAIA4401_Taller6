@@ -19,18 +19,14 @@ construida en el Taller 5 después de eliminar la característica `Customer_Age`
 se comparan las respuestas de la API al omitir una variable eliminada del modelo y otra
 variable que todavía es requerida.
 
-Durante el desarrollo se realizaron las siguientes actividades:
+Durante la preparación del taller se realizaron o se planificaron las siguientes actividades:
 
 - Exploración de los archivos de configuración, dependencias, esquemas y rutas de la API.
-- Creación y configuración de una instancia AWS EC2 con Ubuntu 24.04.
-- Publicación del proyecto en un repositorio de GitHub.
-- Conexión a la máquina virtual mediante SSH.
-- Creación de un ambiente virtual e instalación de tox.
-- Ejecución de `tox run -e test_app` para validar la API.
-- Ejecución de `tox run -e run` para iniciar el servidor Uvicorn.
-- Prueba de las rutas `/api/v1/health` y `/api/v1/predict`.
-- Actualización del paquete del modelo a `model_abandono-0.0.2-py3-none-any.whl`.
-- Prueba del comportamiento de la API ante variables ausentes en la entrada.
+- Lanzamiento y configuración pendiente de una instancia AWS EC2 con Ubuntu 24.04.
+- Publicación del proyecto y ejecución de las pruebas dentro de la máquina virtual EC2.
+- Prueba de las rutas `/api/v1/health` y `/api/v1/predict` desde la instancia EC2.
+- Actualización pendiente del paquete del modelo a `model_abandono-0.0.2-py3-none-any.whl`.
+- Prueba pendiente del comportamiento de la API ante variables ausentes en la entrada.
 
 # 1. Exploración de los archivos de la API (Parte 1)
 
@@ -186,8 +182,9 @@ validan la estructura recibida; después, el código realiza estas acciones:
 
 ## 2.1 Lanzamiento de la instancia EC2
 
-Se lanzó una instancia AWS EC2 con la configuración recomendada: tipo `t3.small`,
-sistema operativo Ubuntu 24.04 y disco de 20 GB.
+Este es el primer paso de ejecución de la Parte 2. Se debe lanzar una instancia AWS EC2
+con la configuración recomendada: tipo `t3.small`, sistema operativo Ubuntu 24.04 y
+disco de 20 GB.
 
 - **IP pública:** `<COMPLETAR_IP>`
 - **Región:** `<COMPLETAR_REGION>`
@@ -199,8 +196,8 @@ sistema operativo Ubuntu 24.04 y disco de 20 GB.
 
 ## 2.2 Creación y publicación del repositorio
 
-Se creó un repositorio en GitHub y se copiaron los archivos de `bankchurn-api`. La
-estructura de la raíz quedó así:
+El repositorio público `MAIA4401_Taller6` fue creado en GitHub y contiene los archivos
+del taller. La estructura de la raíz es:
 
 ```
 repo/
@@ -225,7 +222,7 @@ git push
 
 ## 2.3 Conexión a la máquina virtual
 
-Desde macOS se utilizó SSH con la llave privada entregada por AWS:
+Se debe establecer la conexión SSH con la llave privada entregada por AWS:
 
 ```bash
 ssh -i /ruta/a/llave.pem ubuntu@<IP_PUBLICA>
@@ -237,8 +234,8 @@ ssh -i /ruta/a/llave.pem ubuntu@<IP_PUBLICA>
 
 ## 2.4 – 2.7 Instalación de herramientas
 
-Dentro de la máquina virtual se actualizaron los paquetes y se instalaron pip, unzip y
-la herramienta para crear ambientes virtuales:
+Dentro de la máquina virtual EC2 se actualizarán los paquetes y se instalarán pip, unzip
+y la herramienta para crear ambientes virtuales:
 
 ```bash
 sudo apt update
@@ -258,6 +255,8 @@ La activación se verificó observando el prefijo `(env-api)` en la terminal.
 
 ## 2.10 Clonación del repositorio
 
+Dentro de la VM EC2 se clonará el repositorio publicado en GitHub:
+
 ```bash
 git clone <URL_DEL_REPOSITORIO>
 cd <NOMBRE_DEL_REPOSITORIO>
@@ -268,6 +267,8 @@ La estructura se comprobó verificando que las carpetas `app` y `model-pkg`, jun
 los archivos de configuración, estuvieran en la raíz del repositorio.
 
 ## 2.11 Instalación de tox
+
+Dentro de la VM EC2 se instalará Tox y se configurará el `PATH`:
 
 ```bash
 pip install tox
@@ -284,14 +285,15 @@ La versión instalada de tox fue `<COMPLETAR_VERSION_TOX>`.
 tox run -e test_app
 ```
 
-Este comando creó o reutilizó el ambiente aislado de tox, instaló las dependencias de
-prueba y ejecutó `pytest -vv app/tests/`.
+Este comando se ejecutará dentro de la VM EC2. Tox creará o reutilizará el ambiente
+aislado, instalará las dependencias de prueba y ejecutará `pytest -vv app/tests/`.
+La captura y el resultado que se incluirán aquí deben corresponder a esa ejecución.
 
 ![Salida de tox run -e test_app con las pruebas superadas](imgs/t6-03-tox-test-app.png)
 
 *Figura 2.12 — Ejecución del ambiente de pruebas de la API (numeral 2.12 — 10 pts).*
 
-Resultado obtenido: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
+Resultado en EC2: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
 
 ## 2.13 Ejecución de la API
 
@@ -299,8 +301,8 @@ Resultado obtenido: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
 tox run -e run
 ```
 
-El ambiente `run` ejecutó `python app/main.py` y dejó el servidor Uvicorn escuchando en
-el puerto `8001`.
+Este comando se ejecutará dentro de la VM EC2. El ambiente `run` ejecutará
+`python app/main.py` y dejará el servidor Uvicorn escuchando en el puerto `8001`.
 
 ![Salida de tox run -e run y servidor Uvicorn en ejecución](imgs/t6-04-tox-run.png)
 
@@ -308,8 +310,8 @@ el puerto `8001`.
 
 ## 2.14 Apertura del puerto 8001
 
-En el grupo de seguridad asociado a la instancia se agregó una regla de entrada con las
-siguientes características:
+En el grupo de seguridad asociado a la instancia EC2 se agregará una regla de entrada con
+las siguientes características:
 
 | Campo | Valor |
 |---|---|
@@ -317,11 +319,11 @@ siguientes características:
 | Puerto | `8001` |
 | Origen | Anywhere IPv4 (`0.0.0.0/0`) |
 
-Esta regla permitió acceder al servidor desde un navegador externo.
+Esta regla permitirá acceder al servidor desde un navegador externo.
 
 ## 2.15 – 2.16 Acceso y prueba desde el navegador
 
-La aplicación se abrió en:
+Una vez iniciado el servidor en la VM y abierto el puerto, la aplicación se abrirá en:
 
 ```text
 http://<IP_PUBLICA>:8001
@@ -333,14 +335,14 @@ La documentación interactiva se consultó en:
 http://<IP_PUBLICA>:8001/docs
 ```
 
-Desde Swagger UI se ejecutó primero `/api/v1/health` y posteriormente `/api/v1/predict`,
-utilizando `Try it out` y `Execute`.
+Desde Swagger UI se ejecutará primero `/api/v1/health` y posteriormente
+`/api/v1/predict`, utilizando `Try it out` y `Execute`.
 
 ![Ejecución exitosa de una predicción desde la documentación de FastAPI](imgs/t6-05-prediction-success.png)
 
 *Figura 2.16 — Respuesta satisfactoria de la ruta de predicción (numeral 2.16 — 10 pts).*
 
-La respuesta exitosa fue:
+La respuesta exitosa que se documentará será:
 
 ```json
 {
@@ -350,12 +352,12 @@ La respuesta exitosa fue:
 }
 ```
 
-Al finalizar la prueba se detuvo el servidor con `Ctrl+C`.
+Al finalizar la prueba se detendrá el servidor con `Ctrl+C`.
 
 # 3. Modificación de la API para el modelo 0.0.2 (Parte 3)
 
-En el Taller 5 se modificó el modelo para eliminar la característica `Customer_Age` y
-se generó el paquete:
+En el Taller 5 se modificó el modelo para eliminar la característica `Customer_Age` y se
+generó el paquete que se incorporará a la API:
 
 ```text
 model_abandono-0.0.2-py3-none-any.whl
@@ -363,8 +365,8 @@ model_abandono-0.0.2-py3-none-any.whl
 
 ## 3.1 Incorporación del nuevo paquete
 
-Se copió el archivo `.whl` a `model-pkg/` y se retiró o reemplazó la versión anterior.
-La carpeta quedó así:
+Se copiará el archivo `.whl` a `model-pkg/` y se retirará o reemplazará la versión
+anterior. La carpeta deberá quedar así:
 
 ```text
 model-pkg/
@@ -373,14 +375,14 @@ model-pkg/
 
 ## 3.2 Actualización de `requirements.txt`
 
-Se actualizó la dependencia local para que la API utilizara la versión `0.0.2` del
-modelo. La línea final quedó:
+Se actualizará la dependencia local para que la API utilice la versión `0.0.2` del
+modelo. La línea final deberá quedar:
 
 ```text
 ./model-pkg/model_abandono-0.0.2-py3-none-any.whl
 ```
 
-La actualización se publicó en GitHub:
+La actualización se publicará en GitHub:
 
 ```bash
 git add .
@@ -390,14 +392,18 @@ git push
 
 ## 3.3 Actualización en la máquina virtual
 
+Dentro de la VM EC2 se actualizará el repositorio:
+
 ```bash
 git pull
 ```
 
-Se verificó que el repositorio contuviera el nuevo archivo `.whl` y que `requirements.txt`
-referenciara la versión `0.0.2`.
+Se verificará que el repositorio contenga el nuevo archivo `.whl` y que
+`requirements.txt` referencie la versión `0.0.2`.
 
 ## 3.4 Repetición de las pruebas con tox
+
+Esta ejecución se realizará dentro de la VM EC2:
 
 ```bash
 tox run -e test_app
@@ -407,7 +413,7 @@ tox run -e test_app
 
 *Figura 3.4 — Pruebas posteriores a la actualización del paquete (numeral 3.6 — evidencia complementaria).*
 
-Resultado obtenido: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
+Resultado en EC2: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
 
 ## 3.5 Repetición de la ejecución y prueba en el navegador
 
@@ -415,45 +421,36 @@ Resultado obtenido: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
 tox run -e run
 ```
 
-Se volvió a acceder a la documentación mediante:
+Se volverá a acceder a la documentación mediante:
 
 ```text
 http://<IP_PUBLICA>:8001/docs
 ```
 
-La ruta `/api/v1/health` permitió verificar que la versión del modelo reportada fuera
+La ruta `/api/v1/health` permitirá verificar que la versión del modelo reportada sea
 `0.0.2`.
 
 ## 3.6 Predicción omitiendo una variable eliminada
 
-Se eliminó `Customer_Age` del objeto de entrada, porque esta característica ya no forma
+Se eliminará `Customer_Age` del objeto de entrada, porque esta característica ya no forma
 parte del modelo `0.0.2`.
 
 ![Predicción sin la variable Customer_Age](imgs/t6-07-prediction-without-removed-feature.png)
 
 *Figura 3.6 — Resultado al eliminar una variable que ya no utiliza el modelo (numeral 3.8 — 10 pts).*
 
-Resultado observado: `<COMPLETAR_RESULTADO>`.
+Resultado observado en EC2: `<COMPLETAR_RESULTADO>`.
 
 ## 3.7 Predicción omitiendo una variable todavía requerida
 
-Se eliminó la variable `<COMPLETAR_VARIABLE_NO_ELIMINADA>` del objeto de entrada. Esta
+Se eliminará la variable `<COMPLETAR_VARIABLE_NO_ELIMINADA>` del objeto de entrada. Esta
 variable sí continúa siendo necesaria para el modelo `0.0.2`.
 
 ![Predicción sin una variable todavía requerida](imgs/t6-08-prediction-without-required-feature.png)
 
 *Figura 3.7 — Resultado al eliminar una variable que aún requiere el modelo (numeral 3.9 — 10 pts).*
 
-Resultado observado: `<COMPLETAR_RESULTADO>`.
-
-## 3.8 Comparación de los dos experimentos
-
-La eliminación de `Customer_Age` corresponde al cambio realizado en el paquete `0.0.2`,
-por lo que la entrada es compatible con las variables esperadas por el modelo actualizado.
-En contraste, al eliminar una variable que no fue retirada durante el empaquetamiento,
-la validación de los datos o la transformación del pipeline puede generar un error de
-entrada. La respuesta final debe ser interpretada a partir del código HTTP y del mensaje
-mostrado por Swagger UI.
+Resultado observado en EC2: `<COMPLETAR_RESULTADO>`.
 
 # 4. Conclusiones
 
@@ -467,20 +464,7 @@ servidor en ambientes controlados. El despliegue en EC2 agregó los pasos necesa
 instalar dependencias, configurar un ambiente virtual, publicar el puerto `8001` y
 acceder a la API desde fuera de la máquina.
 
-Finalmente, la actualización del paquete a `0.0.2` mostró la relación entre el contrato
-de entrada de la API y las características esperadas por el modelo. La comparación entre
-una variable eliminada y una variable todavía requerida permite observar cómo se comporta
-la validación cuando la entrada no coincide con el esquema del modelo.
-
----
-
-## Lista de evidencias pendientes
-
-- [ ] Captura de la consola de AWS EC2 con el usuario visible.
-- [ ] Captura de la conexión SSH.
-- [ ] Salida completa de `tox run -e test_app`.
-- [ ] Salida completa de `tox run -e run`.
-- [ ] Captura de una predicción exitosa desde `/docs`.
-- [ ] Captura de la predicción sin `Customer_Age`.
-- [ ] Captura de la predicción sin una variable todavía requerida.
-- [ ] Reemplazar los marcadores `<COMPLETAR_...>` con los resultados reales.
+Finalmente, la actualización del paquete a `0.0.2` permitirá observar la relación entre
+el contrato de entrada de la API y las características esperadas por el modelo. Se
+comparará el resultado de omitir una variable eliminada del paquete con el resultado de
+omitir una variable que todavía es requerida.
