@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reporte Taller 6.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="taller-6-apis">Taller 6: APIs</h1>
+<p><strong>Autor:</strong> German Rodríguez<br>
+<strong>Curso:</strong> MAIA 4401 — MLOps<br>
+<strong>Fecha:</strong> Agosto 2026</p>
+<hr>
+<h2 id="resumen">Resumen</h2>
+<p>En este taller se explora el servicio de predicciones del modelo de <em>churn</em> bancario a
+través de una API construida con <strong>FastAPI</strong> y ejecutada mediante <strong>Uvicorn</strong>. El flujo
+incluye el análisis de la estructura de la API, la configuración de una máquina virtual
+<strong>AWS EC2</strong>, la ejecución de pruebas automatizadas con <strong>tox</strong> y la interacción con las
+rutas de salud y predicción desde el navegador.</p>
+<p>También se actualiza la API para utilizar la versión <code>0.0.2</code> del paquete del modelo,
+construida en el Taller 5 después de eliminar la característica <code>Customer_Age</code>. Finalmente
+se comparan las respuestas de la API al omitir una variable eliminada del modelo y otra
+variable que todavía es requerida.</p>
+<p>Durante el taller se realizaron las siguientes actividades:</p>
+<ul>
+<li>Exploración de los archivos de configuración, dependencias, esquemas y rutas de la API.</li>
+<li>Lanzamiento y configuración de una instancia AWS EC2 con Ubuntu 24.04.</li>
+<li>Publicación del proyecto y ejecución de las pruebas dentro de la máquina virtual EC2.</li>
+<li>Prueba de las rutas <code>/api/v1/health</code> y <code>/api/v1/predict</code> desde la instancia EC2.</li>
+<li>Actualización del paquete del modelo a <code>model_abandono-0.0.2-py3-none-any.whl</code>.</li>
+<li>Prueba del comportamiento de la API ante variables ausentes en la entrada.</li>
+</ul>
+<h1 id="1-exploración-de-los-archivos-de-la-api-parte-1">1. Exploración de los archivos de la API (Parte 1)</h1>
+<p>El proyecto <code>bankchurn-api</code> está organizado como una aplicación Python independiente.
+Su estructura principal es la siguiente:</p>
+<pre class="hljs"><code><div>bankchurn-api/
+├── app/
+│   ├── api.py
+│   ├── config.py
+│   ├── main.py
+│   ├── schemas/
+│   │   ├── health.py
+│   │   └── predict.py
+│   └── tests/
+├── model-pkg/
+│   └── model_abandono-0.0.1-py3-none-any.whl
+├── requirements.txt
+├── test_requirements.txt
+├── typing_requirements.txt
+├── tox.ini
+└── Procfile
+</div></code></pre>
+<h2 id="11-archivos-de-dependencias">1.1 Archivos de dependencias</h2>
+<p>El archivo <code>requirements.txt</code> contiene las dependencias necesarias para ejecutar la API
+y cargar el paquete del modelo:</p>
+<pre class="hljs"><code><div>uvicorn&gt;=0.20.0,&lt;0.30.0
+fastapi&gt;=0.88.0,&lt;1.0.0
+python-multipart&gt;=0.0.5,&lt;0.1.0
+typing_extensions&gt;=4.2.0,&lt;5.0.0
+loguru&gt;=0.5.3,&lt;1.0.0
+</div></code></pre>
+<p>El archivo <code>test_requirements.txt</code> agrega las dependencias necesarias para ejecutar las
+pruebas automatizadas. El archivo <code>typing_requirements.txt</code> contiene las herramientas de
+verificación de tipos y calidad de código. Estas dependencias se instalan de forma
+separada para mantener diferenciados los ambientes de ejecución, prueba y revisión.</p>
+<h2 id="12-ambientes-definidos-en-toxini">1.2 Ambientes definidos en <code>tox.ini</code></h2>
+<p>El archivo <code>tox.ini</code> define los ambientes <code>test_app</code>, <code>run</code> y <code>checks</code>. Para este taller
+son especialmente importantes los dos primeros:</p>
+<table>
+<thead>
+<tr>
+<th>Ambiente</th>
+<th>Dependencias</th>
+<th>Comando</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_app</code></td>
+<td><code>-rtest_requirements.txt</code></td>
+<td><code>pytest -vv app/tests/</code></td>
+<td>Ejecuta las pruebas de la aplicación con salida detallada.</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>Las mismas dependencias de <code>test_app</code></td>
+<td><code>python app/main.py</code></td>
+<td>Inicia el servidor de la API.</td>
+</tr>
+<tr>
+<td><code>checks</code></td>
+<td><code>-rtyping_requirements.txt</code></td>
+<td><code>flake8</code>, <code>isort</code>, <code>black</code> y <code>mypy</code></td>
+<td>Revisa estilo, formato y tipos.</td>
+</tr>
+</tbody>
+</table>
+<p>El ambiente <code>run</code> reutiliza el directorio del ambiente <code>test_app</code> mediante la propiedad
+<code>envdir = {toxworkdir}/test_app</code>. Además, <code>tox.ini</code> establece <code>PYTHONPATH=.</code> y
+<code>PYTHONHASHSEED=0</code> para la ejecución de la aplicación y sus pruebas.</p>
+<h2 id="13-esquemas-de-la-api">1.3 Esquemas de la API</h2>
+<h3 id="esquema-health">Esquema <code>Health</code></h3>
+<p>El esquema está definido en <code>app/schemas/health.py</code> y representa la respuesta de la ruta
+de salud. Contiene tres campos de texto:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>Nombre del proyecto o API.</td>
+</tr>
+<tr>
+<td><code>api_version</code></td>
+<td><code>str</code></td>
+<td>Versión de la aplicación.</td>
+</tr>
+<tr>
+<td><code>model_version</code></td>
+<td><code>str</code></td>
+<td>Versión del paquete del modelo cargado.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="esquemas-de-predicción">Esquemas de predicción</h3>
+<p>En <code>app/schemas/predict.py</code> se definen dos modelos de Pydantic:</p>
+<ul>
+<li><code>MultipleDataInputs</code>: recibe una lista llamada <code>inputs</code>. Cada elemento de la lista
+debe cumplir el esquema <code>DataInputSchema</code>, importado desde el paquete del modelo.</li>
+<li><code>PredictionResults</code>: representa la respuesta de la predicción. Incluye <code>errors</code>,
+<code>version</code> y <code>predictions</code>.</li>
+</ul>
+<p>El ejemplo incluido en el esquema muestra las variables originales del modelo, entre
+ellas <code>Customer_Age</code>, <code>Gender</code>, <code>Dependent_count</code>, <code>Education_Level</code>, <code>Credit_Limit</code>,
+<code>Total_Trans_Amt</code> y <code>Avg_Utilization_Ratio</code>. Este ejemplo será actualizado al utilizar
+la versión <code>0.0.2</code>, en la que se eliminó <code>Customer_Age</code>.</p>
+<h2 id="14-argumentos-de-uvicornrun">1.4 Argumentos de <code>uvicorn.run</code></h2>
+<p>En <code>app/main.py</code> el servidor se inicia con:</p>
+<pre class="hljs"><code><div>uvicorn.run(app, host=<span class="hljs-string">&quot;0.0.0.0&quot;</span>, port=<span class="hljs-number">8001</span>, log_level=<span class="hljs-string">&quot;debug&quot;</span>)
+</div></code></pre>
+<p>Los cuatro argumentos son:</p>
+<table>
+<thead>
+<tr>
+<th>Argumento</th>
+<th>Valor</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app</code></td>
+<td>La instancia FastAPI</td>
+<td>Indica qué aplicación debe ejecutar Uvicorn.</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td><code>0.0.0.0</code></td>
+<td>Permite aceptar conexiones desde todas las interfaces de red de la máquina virtual.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td><code>8001</code></td>
+<td>Define el puerto en el que queda disponible el servidor.</td>
+</tr>
+<tr>
+<td><code>log_level</code></td>
+<td><code>debug</code></td>
+<td>Configura un nivel detallado de mensajes durante la ejecución.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-configuración-de-la-aplicación">1.5 Configuración de la aplicación</h2>
+<p>El archivo <code>app/config.py</code> define los parámetros globales de la aplicación mediante la
+clase <code>Settings</code>:</p>
+<ul>
+<li><code>API_V1_STR</code> establece la ruta base <code>/api/v1</code>.</li>
+<li><code>PROJECT_NAME</code> define el nombre visible de la API.</li>
+<li><code>BACKEND_CORS_ORIGINS</code> contiene los orígenes permitidos para solicitudes CORS.</li>
+<li><code>LoggingSettings</code> define el nivel de logging, inicialmente <code>INFO</code>.</li>
+<li><code>InterceptHandler</code> redirige los mensajes del módulo estándar de logging hacia Loguru.</li>
+<li><code>setup_app_logging</code> configura los loggers de Uvicorn y de la aplicación.</li>
+</ul>
+<h2 id="16-ejecución-de-las-rutas">1.6 Ejecución de las rutas</h2>
+<h3 id="ruta-raíz-">Ruta raíz <code>/</code></h3>
+<p>La ruta raíz devuelve una respuesta HTML con el mensaje <code>Welcome to the API</code> y un enlace
+a la documentación interactiva ubicada en <code>/docs</code>.</p>
+<h3 id="ruta-apiv1health">Ruta <code>/api/v1/health</code></h3>
+<p>La ruta de salud responde mediante el esquema <code>Health</code>. Construye un objeto con el nombre
+del proyecto, la versión de la API y la versión del modelo instalado. Su objetivo es
+comprobar que el servidor está activo y que el paquete del modelo puede cargarse.</p>
+<p>Ejemplo de respuesta esperada:</p>
+<pre class="hljs"><code><div><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Banckchurn API&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;api_version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.1.0&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;model_version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.0.1&quot;</span>
+<span class="hljs-punctuation">}</span>
+</div></code></pre>
+<p>Los valores exactos de versión deben verificarse en la ejecución realizada.</p>
+<h3 id="ruta-apiv1predict">Ruta <code>/api/v1/predict</code></h3>
+<p>La ruta de predicción recibe un objeto con una lista de entradas. FastAPI y Pydantic
+validan la estructura recibida; después, el código realiza estas acciones:</p>
+<ol>
+<li>Convierte las entradas a un <code>DataFrame</code> de pandas.</li>
+<li>Registra la solicitud en los logs.</li>
+<li>Reemplaza valores <code>NaN</code> por <code>None</code>.</li>
+<li>Invoca <code>make_prediction</code> del paquete del modelo.</li>
+<li>Si el modelo devuelve errores de validación, responde con HTTP <code>400</code>.</li>
+<li>Si la validación es correcta, devuelve las predicciones y la versión del modelo.</li>
+</ol>
+<h1 id="2-prueba-y-ejecución-de-la-api-parte-2">2. Prueba y ejecución de la API (Parte 2)</h1>
+<h2 id="21-lanzamiento-de-la-instancia-ec2">2.1 Lanzamiento de la instancia EC2</h2>
+<p>Este es el primer paso de ejecución de la Parte 2. Se debe lanzar una instancia AWS EC2
+con la configuración recomendada: tipo <code>t3.small</code>, sistema operativo Ubuntu 24.04 y
+disco de 20 GB.</p>
+<ul>
+<li><strong>IP pública:</strong> <code>3.92.223.195</code></li>
+<li><strong>Región:</strong> <code>us-east-1 (N. Virginia)</code></li>
+<li><strong>ID de instancia:</strong> <code>i-0f81d427073f53521</code></li>
+</ul>
+<p><img src="image-2.png" alt="alt text"></p>
+<p><em>Figura 2.1 — Consola de AWS EC2 con la máquina virtual en ejecución (numeral 2.1 — 5 pts).</em></p>
+<h2 id="22-creación-y-publicación-del-repositorio">2.2 Creación y publicación del repositorio</h2>
+<p>El repositorio público <code>MAIA4401_Taller6</code> fue creado en GitHub y contiene los archivos
+del taller. La estructura de la raíz es:</p>
+<pre class="hljs"><code><div>repo/
+├── app/
+├── model-pkg/
+├── requirements.txt
+├── test_requirements.txt
+├── typing_requirements.txt
+├── tox.ini
+└── Procfile
+</div></code></pre>
+<p>El repositorio se actualizó mediante:</p>
+<pre class="hljs"><code><div>git add .
+git commit -m <span class="hljs-string">&quot;API inicial de predicción bankchurn&quot;</span>
+git push
+</div></code></pre>
+<ul>
+<li><strong>URL del repositorio:</strong> <code>https://github.com/germarodr/MAIA4401_Taller6</code></li>
+</ul>
+<h2 id="23-conexión-a-la-máquina-virtual">2.3 Conexión a la máquina virtual</h2>
+<p>Se debe establecer la conexión SSH con la llave privada entregada por AWS:</p>
+<pre class="hljs"><code><div>ssh -i /ruta/a/llave.pem ubuntu@3.92.223.195
+</div></code></pre>
+<p><img src="image-3.png" alt="alt text"></p>
+<p><em>Figura 2.3 — Conexión SSH exitosa a la VM (numeral 2.3 — 5 pts).</em></p>
+<h2 id="24--27-instalación-de-herramientas">2.4 – 2.7 Instalación de herramientas</h2>
+<p>Dentro de la máquina virtual EC2 se actualizarán los paquetes y se instalarán pip, unzip
+y la herramienta para crear ambientes virtuales:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">sudo</span> apt update
+<span class="hljs-built_in">sudo</span> apt install python3-pip
+<span class="hljs-built_in">sudo</span> apt install zip unzip
+<span class="hljs-built_in">sudo</span> apt install python3.12-venv
+</div></code></pre>
+<h2 id="28--29-creación-y-activación-del-ambiente-virtual">2.8 – 2.9 Creación y activación del ambiente virtual</h2>
+<pre class="hljs"><code><div>python3 -m venv /home/ubuntu/env-api
+<span class="hljs-built_in">source</span> /home/ubuntu/env-api/bin/activate
+</div></code></pre>
+<p>La activación se verificó observando el prefijo <code>(env-api)</code> en la terminal.</p>
+<h2 id="210-clonación-del-repositorio">2.10 Clonación del repositorio</h2>
+<p>Dentro de la VM EC2 se clonó el repositorio publicado en GitHub:</p>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/germarodr/MAIA4401_Taller6.git
+<span class="hljs-built_in">cd</span> MAIA4401_Taller6
+<span class="hljs-built_in">ls</span>
+</div></code></pre>
+<p>La estructura se comprobó verificando que las carpetas <code>app</code> y <code>model-pkg</code>, junto con
+los archivos de configuración, estuvieran en la raíz del repositorio.</p>
+<h2 id="211-instalación-de-tox">2.11 Instalación de tox</h2>
+<p>Dentro de la VM EC2 se instalará Tox y se configurará el <code>PATH</code>:</p>
+<pre class="hljs"><code><div>pip install tox
+<span class="hljs-built_in">sudo</span> apt-get install tox
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:/home/ubuntu/.local/bin
+tox --version
+</div></code></pre>
+<p>La versión instalada de tox fue <code>4.61.1</code>.</p>
+<h2 id="212-ejecución-de-las-pruebas-de-la-api">2.12 Ejecución de las pruebas de la API</h2>
+<pre class="hljs"><code><div>tox run -e test_app
+</div></code></pre>
+<p>Este comando se ejecutará dentro de la VM EC2. Tox creará o reutilizará el ambiente
+aislado, instalará las dependencias de prueba y ejecutará <code>pytest -vv app/tests/</code>.
+La captura y el resultado que se incluirán aquí deben corresponder a esa ejecución.</p>
+<p><img src="image-4.png" alt="alt text"></p>
+<p><em>Figura 2.12 — Ejecución del ambiente de pruebas de la API (numeral 2.12 — 10 pts).</em></p>
+<h2 id="213-ejecución-de-la-api">2.13 Ejecución de la API</h2>
+<pre class="hljs"><code><div>tox run -e run
+</div></code></pre>
+<p>Este comando se ejecutará dentro de la VM EC2. El ambiente <code>run</code> ejecutará
+<code>python app/main.py</code> y dejará el servidor Uvicorn escuchando en el puerto <code>8001</code>.</p>
+<p><img src="image-5.png" alt="alt text"></p>
+<p><em>Figura 2.13 — Ejecución del ambiente de ejecución de la API (numeral 2.13 — 10 pts).</em></p>
+<h2 id="214-apertura-del-puerto-8001">2.14 Apertura del puerto 8001</h2>
+<p>En el grupo de seguridad asociado a la instancia EC2 se agregará una regla de entrada con
+las siguientes características:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tipo</td>
+<td>TCP personalizado</td>
+</tr>
+<tr>
+<td>Puerto</td>
+<td><code>8001</code></td>
+</tr>
+<tr>
+<td>Origen</td>
+<td>Anywhere IPv4 (<code>0.0.0.0/0</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Esta regla permitirá acceder al servidor desde un navegador externo.</p>
+<h2 id="215--216-acceso-y-prueba-desde-el-navegador">2.15 – 2.16 Acceso y prueba desde el navegador</h2>
+<p>Una vez iniciado el servidor en la VM y abierto el puerto, la aplicación se abrirá en:</p>
+<pre class="hljs"><code><div>http://3.92.223.195:8001
+</div></code></pre>
+<p>La documentación interactiva se consultó en:</p>
+<pre class="hljs"><code><div>http://3.92.223.195:8001/docs
+</div></code></pre>
+<p>Desde Swagger UI se ejecutará primero <code>/api/v1/health</code> y posteriormente
+<code>/api/v1/predict</code>, utilizando <code>Try it out</code> y <code>Execute</code>.</p>
+<p>Durante la primera prueba, la ruta <code>/api/v1/health</code> devolvió un error <code>500 Internal Server Error</code>. La causa fue que <code>app/api.py</code> invocaba <code>health.model_dump()</code>, un método propio de
+Pydantic v2, mientras que el paquete del modelo fija Pydantic v1 (<code>pydantic&lt;2.0.0</code>). En
+Pydantic v1 el método equivalente es <code>.dict()</code>. Se corrigió la línea a <code>return health.dict()</code>,
+se publicó el cambio en GitHub y se actualizó el repositorio en la máquina virtual antes de
+repetir la prueba con éxito.</p>
+<p><img src="image-6.png" alt="alt text"></p>
+<p><em>Figura 2.16 — Respuesta satisfactoria de la ruta de predicción (numeral 2.16 — 10 pts).</em></p>
+<p>La respuesta exitosa obtenida fue:</p>
+<pre class="hljs"><code><div><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;errors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.0.1&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;predictions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-number">0</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</div></code></pre>
+<p>Al finalizar la prueba se detendrá el servidor con <code>Ctrl+C</code>.</p>
+<h1 id="3-modificación-de-la-api-para-el-modelo-002-parte-3">3. Modificación de la API para el modelo 0.0.2 (Parte 3)</h1>
+<p>En el Taller 5 se modificó el modelo para eliminar la característica <code>Customer_Age</code> y se
+generó el paquete que se incorporará a la API:</p>
+<pre class="hljs"><code><div>model_abandono-0.0.2-py3-none-any.whl
+</div></code></pre>
+<h2 id="31-incorporación-del-nuevo-paquete">3.1 Incorporación del nuevo paquete</h2>
+<p>Se copiará el archivo <code>.whl</code> a <code>model-pkg/</code> y se retirará o reemplazará la versión
+anterior. La carpeta deberá quedar así:</p>
+<pre class="hljs"><code><div>model-pkg/
+└── model_abandono-0.0.2-py3-none-any.whl
+</div></code></pre>
+<h2 id="32-actualización-de-requirementstxt">3.2 Actualización de <code>requirements.txt</code></h2>
+<p>Se actualizará la dependencia local para que la API utilice la versión <code>0.0.2</code> del
+modelo. La línea final deberá quedar:</p>
+<pre class="hljs"><code><div>./model-pkg/model_abandono-0.0.2-py3-none-any.whl
+</div></code></pre>
+<p>La actualización se publicará en GitHub:</p>
+<pre class="hljs"><code><div>git add .
+git commit -m <span class="hljs-string">&quot;Actualizar API al modelo 0.0.2&quot;</span>
+git push
+</div></code></pre>
+<h2 id="33-actualización-en-la-máquina-virtual">3.3 Actualización en la máquina virtual</h2>
+<p>Dentro de la VM EC2 se actualizará el repositorio:</p>
+<pre class="hljs"><code><div>git pull
+</div></code></pre>
+<p>Se verificará que el repositorio contenga el nuevo archivo <code>.whl</code> y que
+<code>requirements.txt</code> referencie la versión <code>0.0.2</code>.</p>
+<h2 id="34-repetición-de-las-pruebas-con-tox">3.4 Repetición de las pruebas con tox</h2>
+<p>Esta ejecución se realizará dentro de la VM EC2:</p>
+<pre class="hljs"><code><div>tox run -e test_app
+</div></code></pre>
+<p><img src="image-7.png" alt="alt text"></p>
+<p><em>Figura 3.4 — Pruebas posteriores a la actualización del paquete (evidencia complementaria de la Parte 3).</em></p>
+<p>Resultado en EC2: <code>1 passed</code>; <code>test_app: OK</code>.</p>
+<h2 id="35-repetición-de-la-ejecución-y-prueba-en-el-navegador">3.5 Repetición de la ejecución y prueba en el navegador</h2>
+<pre class="hljs"><code><div>tox run -e run
+</div></code></pre>
+<p>Se volverá a acceder a la documentación mediante:</p>
+<pre class="hljs"><code><div>http://3.92.223.195:8001/docs
+</div></code></pre>
+<p>La ruta <code>/api/v1/health</code> permitirá verificar que la versión del modelo reportada sea
+<code>0.0.2</code>.</p>
+<h2 id="36-predicción-omitiendo-una-variable-eliminada">3.6 Predicción omitiendo una variable eliminada</h2>
+<p>Se eliminará <code>Customer_Age</code> del objeto de entrada, porque esta característica ya no forma
+parte del modelo <code>0.0.2</code>.</p>
+<p><img src="image-8.png" alt="alt text"></p>
+<p><em>Figura 3.6 — Resultado al eliminar una variable que ya no utiliza el modelo (numeral 3.8 — 10 pts).</em></p>
+<p>Como el modelo <code>0.0.2</code> ya no utiliza <code>Customer_Age</code>, su ausencia no afecta la predicción y
+la API respondió <code>200</code> correctamente:</p>
+<pre class="hljs"><code><div><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;errors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.0.2&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;predictions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-number">0</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</div></code></pre>
+<h2 id="37-predicción-omitiendo-una-variable-todavía-requerida">3.7 Predicción omitiendo una variable todavía requerida</h2>
+<p>Se eliminará la variable <code>Total_Trans_Amt</code> del objeto de entrada. Esta variable sí continúa
+siendo necesaria para el modelo <code>0.0.2</code>.</p>
+<p><img src="image-9.png" alt="alt text"></p>
+<p><em>Figura 3.7 — Resultado al eliminar una variable que aún requiere el modelo (numeral 3.9 — 10 pts).</em></p>
+<p>Al faltar una variable que el modelo <code>0.0.2</code> todavía requiere, el pipeline no pudo generar
+la predicción y la API respondió con <code>500 Internal Server Error</code> (<code>content-type: text/plain</code>,
+cuerpo <code>Internal Server Error</code>). Esto evidencia que el contrato de entrada de la API depende
+de las variables efectivamente usadas por el modelo.</p>
+<h1 id="4-conclusiones">4. Conclusiones</h1>
+<p>El taller permitió comprobar el ciclo básico de exposición de un modelo de machine
+learning mediante una API. La organización en esquemas Pydantic separa la validación de
+entradas y salidas, mientras que FastAPI publica automáticamente una interfaz de
+interacción en <code>/docs</code>.</p>
+<p>La configuración de tox permitió reproducir tanto las pruebas como la ejecución del
+servidor en ambientes controlados. El despliegue en EC2 agregó los pasos necesarios para
+instalar dependencias, configurar un ambiente virtual, publicar el puerto <code>8001</code> y
+acceder a la API desde fuera de la máquina.</p>
+<p>Finalmente, la actualización del paquete a <code>0.0.2</code> mostró la relación entre el contrato de
+entrada de la API y las características esperadas por el modelo. Omitir <code>Customer_Age</code>, que
+fue eliminada en la versión <code>0.0.2</code>, no afectó la predicción; en cambio, omitir
+<code>Total_Trans_Amt</code>, que el modelo aún requiere, produjo un error <code>500</code>.</p>
+
+</body>
+</html>
