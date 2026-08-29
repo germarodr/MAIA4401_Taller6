@@ -19,14 +19,14 @@ construida en el Taller 5 después de eliminar la característica `Customer_Age`
 se comparan las respuestas de la API al omitir una variable eliminada del modelo y otra
 variable que todavía es requerida.
 
-Durante la preparación del taller se realizaron o se planificaron las siguientes actividades:
+Durante el taller se realizaron las siguientes actividades:
 
 - Exploración de los archivos de configuración, dependencias, esquemas y rutas de la API.
-- Lanzamiento y configuración pendiente de una instancia AWS EC2 con Ubuntu 24.04.
+- Lanzamiento y configuración de una instancia AWS EC2 con Ubuntu 24.04.
 - Publicación del proyecto y ejecución de las pruebas dentro de la máquina virtual EC2.
 - Prueba de las rutas `/api/v1/health` y `/api/v1/predict` desde la instancia EC2.
-- Actualización pendiente del paquete del modelo a `model_abandono-0.0.2-py3-none-any.whl`.
-- Prueba pendiente del comportamiento de la API ante variables ausentes en la entrada.
+- Actualización del paquete del modelo a `model_abandono-0.0.2-py3-none-any.whl`.
+- Prueba del comportamiento de la API ante variables ausentes en la entrada.
 
 # 1. Exploración de los archivos de la API (Parte 1)
 
@@ -187,8 +187,8 @@ con la configuración recomendada: tipo `t3.small`, sistema operativo Ubuntu 24.
 disco de 20 GB.
 
 - **IP pública:** `3.92.223.195`
-- **Región:** `<COMPLETAR_REGION>`
-- **ID de instancia:** `<COMPLETAR_INSTANCE_ID>`
+- **Región:** `us-east-1 (N. Virginia)`
+- **ID de instancia:** `i-0f81d427073f53521`
 
 ![alt text](image-2.png)
 
@@ -218,7 +218,7 @@ git commit -m "API inicial de predicción bankchurn"
 git push
 ```
 
-- **URL del repositorio:** `<COMPLETAR_URL_REPOSITORIO>`
+- **URL del repositorio:** `https://github.com/germarodr/MAIA4401_Taller6`
 
 ## 2.3 Conexión a la máquina virtual
 
@@ -255,11 +255,11 @@ La activación se verificó observando el prefijo `(env-api)` en la terminal.
 
 ## 2.10 Clonación del repositorio
 
-Dentro de la VM EC2 se clonará el repositorio publicado en GitHub:
+Dentro de la VM EC2 se clonó el repositorio publicado en GitHub:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_REPOSITORIO>
+git clone https://github.com/germarodr/MAIA4401_Taller6.git
+cd MAIA4401_Taller6
 ls
 ```
 
@@ -277,7 +277,7 @@ export PATH=$PATH:/home/ubuntu/.local/bin
 tox --version
 ```
 
-La versión instalada de tox fue `<COMPLETAR_VERSION_TOX>`.
+La versión instalada de tox fue `4.61.1`.
 
 ## 2.12 Ejecución de las pruebas de la API
 
@@ -417,11 +417,11 @@ Esta ejecución se realizará dentro de la VM EC2:
 tox run -e test_app
 ```
 
-![Pruebas de la API después de actualizar el modelo a 0.0.2](imgs/t6-06-tox-test-v020.png)
+![alt text](image-7.png)
 
-*Figura 3.4 — Pruebas posteriores a la actualización del paquete (numeral 3.6 — evidencia complementaria).*
+*Figura 3.4 — Pruebas posteriores a la actualización del paquete (evidencia complementaria de la Parte 3).*
 
-Resultado en EC2: `<COMPLETAR_SALIDA_Y_NUMERO_DE_PRUEBAS>`.
+Resultado en EC2: `1 passed`; `test_app: OK`.
 
 ## 3.5 Repetición de la ejecución y prueba en el navegador
 
@@ -443,22 +443,36 @@ La ruta `/api/v1/health` permitirá verificar que la versión del modelo reporta
 Se eliminará `Customer_Age` del objeto de entrada, porque esta característica ya no forma
 parte del modelo `0.0.2`.
 
-![Predicción sin la variable Customer_Age](imgs/t6-07-prediction-without-removed-feature.png)
+![alt text](image-8.png)
 
 *Figura 3.6 — Resultado al eliminar una variable que ya no utiliza el modelo (numeral 3.8 — 10 pts).*
 
-Resultado observado en EC2: `<COMPLETAR_RESULTADO>`.
+Como el modelo `0.0.2` ya no utiliza `Customer_Age`, su ausencia no afecta la predicción y
+la API respondió `200` correctamente:
+
+```json
+{
+  "errors": null,
+  "version": "0.0.2",
+  "predictions": [
+    0
+  ]
+}
+```
 
 ## 3.7 Predicción omitiendo una variable todavía requerida
 
-Se eliminará la variable `<COMPLETAR_VARIABLE_NO_ELIMINADA>` del objeto de entrada. Esta
-variable sí continúa siendo necesaria para el modelo `0.0.2`.
+Se eliminará la variable `Total_Trans_Amt` del objeto de entrada. Esta variable sí continúa
+siendo necesaria para el modelo `0.0.2`.
 
-![Predicción sin una variable todavía requerida](imgs/t6-08-prediction-without-required-feature.png)
+![alt text](image-9.png)
 
 *Figura 3.7 — Resultado al eliminar una variable que aún requiere el modelo (numeral 3.9 — 10 pts).*
 
-Resultado observado en EC2: `<COMPLETAR_RESULTADO>`.
+Al faltar una variable que el modelo `0.0.2` todavía requiere, el pipeline no pudo generar
+la predicción y la API respondió con `500 Internal Server Error` (`content-type: text/plain`,
+cuerpo `Internal Server Error`). Esto evidencia que el contrato de entrada de la API depende
+de las variables efectivamente usadas por el modelo.
 
 # 4. Conclusiones
 
@@ -472,7 +486,7 @@ servidor en ambientes controlados. El despliegue en EC2 agregó los pasos necesa
 instalar dependencias, configurar un ambiente virtual, publicar el puerto `8001` y
 acceder a la API desde fuera de la máquina.
 
-Finalmente, la actualización del paquete a `0.0.2` permitirá observar la relación entre
-el contrato de entrada de la API y las características esperadas por el modelo. Se
-comparará el resultado de omitir una variable eliminada del paquete con el resultado de
-omitir una variable que todavía es requerida.
+Finalmente, la actualización del paquete a `0.0.2` mostró la relación entre el contrato de
+entrada de la API y las características esperadas por el modelo. Omitir `Customer_Age`, que
+fue eliminada en la versión `0.0.2`, no afectó la predicción; en cambio, omitir
+`Total_Trans_Amt`, que el modelo aún requiere, produjo un error `500`.
